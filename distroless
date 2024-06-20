@@ -1,0 +1,9 @@
+FROM golang:1.16 as builder
+WORKDIR /app
+COPY . .
+RUN go build -o myapp
+
+FROM gcr.io/distroless/base-debian10
+WORKDIR /root/
+COPY --from=builder /app/myapp .
+CMD ["./myapp"]
